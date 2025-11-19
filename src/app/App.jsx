@@ -1,11 +1,32 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router';
-import Home from '../page/Home';
+import Root from '../page/Root';
+import VideoDetail from '../page/VideoDetail';
+import Videos from '../page/Videos';
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Root />,
+        children: [
+            {
+                index: true,
+                element: <Videos />,
+            },
+            {
+                path: 'videos',
+                children: [
+                    {
+                        path: ':searchQuery',
+                        element: <Videos />,
+                    },
+                    {
+                        path: 'watch/:videoId',
+                        element: <VideoDetail />,
+                    },
+                ],
+            },
+        ],
     },
 ]);
 
