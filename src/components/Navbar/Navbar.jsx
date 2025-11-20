@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 export default function Navbar() {
     return (
         <nav>
-            <div className="p-b-8 mt-2 flex h-16 w-full items-center justify-between">
+            <div className="p-b-8 flex h-16 w-full items-center justify-between">
                 <HomeButton />
                 <SearchBar />
                 <span></span>

@@ -18,9 +18,9 @@ export default function SearchBar() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="flex h-10 overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex h-10 mr-32 overflow-hidden">
             <div
-                className={`relative flex w-96 items-center rounded-l-3xl border ${isInputFocused ? ' border-blue-700' : 'border-neutral-700'}`}
+                className={`relative flex w-lg items-center rounded-l-3xl border ${isInputFocused ? ' border-blue-700' : 'border-neutral-700'}`}
             >
                 <input
                     type="text"
