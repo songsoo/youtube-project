@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar/Navbar';
 
 export default function Root() {
     return (
-        <div className="bg-bgColor h-full w-full text-amber-50">
+        <div className="h-full w-full max-w-[90vw] flex-1 text-amber-50">
             <Navbar />
             <Outlet />
         </div>

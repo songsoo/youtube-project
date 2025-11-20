@@ -7,14 +7,8 @@ export default function Videos() {
 
     const { searchQuery } = useParams();
 
-    useEffect(() => {
-        console.log(searchQuery);
-        console.log('입니다.');
-    }, []);
-
     return (
         <div>
-            <p>{searchQuery}</p>
             <VideoList />
         </div>
     );
