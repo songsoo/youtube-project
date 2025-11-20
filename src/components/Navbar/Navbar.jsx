@@ -11,7 +11,7 @@ export default function Navbar() {
                 <SearchBar />
                 <span></span>
             </div>
-            <div className="mt-2 border-b border-neutral-600"></div>
+            <div className="mt-1 border-b border-neutral-600"></div>
         </nav>
     );
 }
