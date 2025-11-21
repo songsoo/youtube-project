@@ -7,18 +7,27 @@ export default function SearchBar() {
     const [query, setQuery] = useState('');
     const [isInputFocused, setIsInputFocused] = useState(false);
     const navigate = useNavigate();
-    const titleRef = useRef();
+    const inputRef = useRef();
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (query.trim() !== '') {
-            navigate(`/videos/${query}`);
-            titleRef.current?.blur();
+            navigate(`/videos/${encodeURIComponent(query)}`);
+            inputRef.current?.blur();
         }
     };
 
+    const handleChange = (e) => {
+        setQuery(e.target.value);
+    };
+
+    const clearQuery = () => {
+        setQuery('');
+        inputRef.current?.focus();
+    };
+
     return (
-        <form onSubmit={handleSubmit} className="flex h-10 mr-32 overflow-hidden">
+        <form onSubmit={handleSubmit} className="mr-32 flex h-10 overflow-hidden">
             <div
                 className={`relative flex w-lg items-center rounded-l-3xl border ${isInputFocused ? ' border-blue-700' : 'border-neutral-700'}`}
             >
@@ -26,10 +35,8 @@ export default function SearchBar() {
                     type="text"
                     placeholder="검색"
                     value={query}
-                    ref={titleRef}
-                    onChange={(e) => {
-                        setQuery(e.target.value);
-                    }}
+                    ref={inputRef}
+                    onChange={(e) => handleChange(e)}
                     className="w-full py-2 pl-5 outline-none"
                     onFocus={() => setIsInputFocused(true)}
                     onBlur={() => setIsInputFocused(false)}
@@ -37,10 +44,7 @@ export default function SearchBar() {
                 {query.trim() !== '' && (
                     <button
                         className="mx-1 rounded-full p-1 text-xl hover:cursor-pointer hover:bg-neutral-500"
-                        onClick={() => {
-                            setQuery('');
-                            titleRef.current?.focus();
-                        }}
+                        onClick={clearQuery}
                         type="button"
                     >
                         <RxCross2 />
