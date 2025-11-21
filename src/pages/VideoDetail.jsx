@@ -1,8 +1,26 @@
-import React from 'react';
 import { useParams } from 'react-router';
+import VideoPlayer from '../components/Videos/VideoPlayer';
+import { useQuery } from '@tanstack/react-query';
+import RelatedVideos from '../components/Videos/RelatedVideos';
 
 export default function VideoDetail() {
     const { videoId } = useParams();
+    const {
+        isLoading,
+        error,
+        data: videoDetail,
+    } = useQuery({
+        queryKey: ['videoDetail', videoId],
+        queryFn: () => {
+            return fetch(`/data/getVideoInfo.json`).then((response) => response.json());
+        },
+        staleTime: 1000 * 60 * 50, //50분
+    });
 
-    return <div>특정 비디오{videoId}</div>;
+    return (
+        <div className='flex gap-5'>
+            <VideoPlayer videoId={videoId} videoDetail={videoDetail} />
+            <RelatedVideos isVertical={false} />
+        </div>
+    );
 }
