@@ -24,7 +24,7 @@ export default function VideoCard({
         >
             <img
                 src={item.snippet.thumbnails.high.url}
-                className={`relative z-10 aspect-video rounded-xl object-cover ${isVertical ? 'w-full mb-2' : 'w-40'}`}
+                className={`relative z-10 aspect-video rounded-xl object-cover ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
             />
             <div className={`flex flex-1 gap-3`}>
                 {showChannelImg && (
@@ -34,7 +34,7 @@ export default function VideoCard({
                     />
                 )}
 
-                <div >
+                <div className={`flex flex-col ${!isVertical && 'gap-1'}`}>
                     <p
                         className={`line-clamp-2 font-extrabold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
                     >
