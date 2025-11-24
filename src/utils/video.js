@@ -1,26 +1,28 @@
-export function getVideoIndex(videoId) {
-    const charSum = videoId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-    return charSum % colors.length;
+export function getDateDiff(date) {
+    const today = new Date();
+    const newDate = new Date(date);
+
+    const secondDiff = Math.floor((today - newDate) / 1000);
+    const minuteDiff = Math.floor(secondDiff / 60);
+    const hourDiff = Math.floor(minuteDiff / 60);
+    const dayDiff = Math.floor(hourDiff / 24);
+    const weekDiff = Math.floor(dayDiff / 7);
+
+    if (secondDiff < 60) return `${secondDiff}초 전`;
+    if (minuteDiff < 60) return `${minuteDiff}분 전`;
+    if (hourDiff < 24) return `${hourDiff}시간 전`;
+    if (dayDiff < 7) return `${dayDiff}일 전`;
+
+    const oneMonthAgo = new Date(today);
+    oneMonthAgo.setMonth(today.getMonth() - 1);
+    if (oneMonthAgo - newDate < 0) return `${weekDiff}주 전`;
+
+    const oneYearAgo = new Date(today);
+    oneYearAgo.setFullYear(today.getFullYear() - 1);
+    const monthDiff = today.getMonth() - newDate.getMonth();
+    if (oneYearAgo - newDate < 0) return `${monthDiff <= 0 ? monthDiff + 11 : monthDiff}달 전`;
+
+    return `${today.getFullYear() - newDate.getFullYear()}년 전`;
 }
 
-export const colors = [
-    'bg-red-700',
-    'bg-orange-700',
-    'bg-amber-700',
-    'bg-yellow-700',
-    'bg-lime-700',
-    'bg-green-700',
-    'bg-emerald-700',
-    'bg-teal-700',
-    'bg-cyan-700',
-    'bg-sky-700',
-    'bg-blue-700',
-    'bg-indigo-700',
-    'bg-violet-700',
-    'bg-purple-700',
-    'bg-fuchsia-700',
-    'bg-pink-700',
-    'bg-rose-700',
-    'bg-slate-700',
-    'bg-zinc-700',
-];
+export function getLike(num) {}
