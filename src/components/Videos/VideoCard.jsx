@@ -1,7 +1,10 @@
-import { colors } from '../../utils/video';
 import { useVideoData } from '../../hooks/videoHooks';
 import { decodeHtml } from '../../utils/text';
 import { useNavigate } from 'react-router';
+import { getDominantColor } from '../../utils/image';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getDateDiff } from './../../utils/video';
 
 export default function VideoCard({
     item,
@@ -9,13 +12,18 @@ export default function VideoCard({
     showChannelImg = true,
     showHoverEffect = true,
 }) {
-    const { channelInfo, colorNum } = useVideoData(item.snippet.channelId, item.id.videoId);
+    const { channelInfo } = useVideoData(item.snippet.channelId);
     const navigate = useNavigate();
-    const css = [{ titleSize: 'text-sm' }, { titleSize: 'text-md' }];
-
+    const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
     const handleClick = () => {
         navigate(`/videos/watch/${item.id.videoId}`);
     };
+
+    useEffect(() => {
+        getDominantColor(item.snippet.thumbnails.high.url).then((color) => {
+            setColor({ r: color.r, g: color.g, b: color.b });
+        });
+    }, [item.id.videoId]);
 
     return (
         <div
@@ -48,13 +56,17 @@ export default function VideoCard({
                     <p
                         className={`${isVertical ? 'text-[0.85rem]' : 'text-xs'} font-medium text-neutral-400`}
                     >
-                        {item.snippet.publishedAt}
+                        {getDateDiff(item.snippet.publishedAt)}
                     </p>
                 </div>
             </div>
             {showHoverEffect && (
                 <div
-                    className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl ${colors[colorNum]} opacity-0 transition duration-400 ease-out group-hover:scale-107 group-hover:cursor-pointer group-hover:opacity-30`}
+                    className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl opacity-0 transition duration-400 ease-out group-hover:scale-107 group-hover:cursor-pointer group-hover:opacity-40`}
+                    style={{
+                        backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+                        filter: 'saturate(1.4)',
+                    }}
                 ></div>
             )}
         </div>
