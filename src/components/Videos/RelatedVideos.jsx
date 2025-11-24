@@ -16,7 +16,7 @@ export default function RelatedVideos() {
     });
 
     return (
-        <div className="shrink-0 basis-96 flex flex-col gap-2 ">
+        <nav className="shrink-0 basis-96 flex flex-col gap-2 ">
             {videos?.items?.map((item, index) => (
                 <VideoCard
                     item={item}
@@ -26,6 +26,6 @@ export default function RelatedVideos() {
                     showHoverEffect={false}
                 />
             ))}
-        </div>
+        </nav>
     );
 }

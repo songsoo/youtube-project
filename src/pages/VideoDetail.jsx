@@ -18,9 +18,9 @@ export default function VideoDetail() {
     });
 
     return (
-        <div className='flex gap-5'>
-            <VideoPlayer videoId={videoId} videoDetail={videoDetail} />
+        <main className="flex gap-5">
+            <VideoPlayer videoId={videoId} videoDetail={videoDetail?.items[0]} />
             <RelatedVideos isVertical={false} />
-        </div>
+        </main>
     );
 }
