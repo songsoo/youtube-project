@@ -8,7 +8,7 @@ export function useVideoData(channelId) {
             return fetch(`/data/channelInfo.json`)
                 .then((response) => response.json())
                 .then((data) => {
-                    return data.items[0].snippet;
+                    return data.items[0];
                 });
         },
         staleTime: 1000 * 60 * 50,
