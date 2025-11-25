@@ -1,28 +1,10 @@
-export function getDateDiff(date) {
-    const today = new Date();
-    const newDate = new Date(date);
-
-    const secondDiff = Math.floor((today - newDate) / 1000);
-    const minuteDiff = Math.floor(secondDiff / 60);
-    const hourDiff = Math.floor(minuteDiff / 60);
-    const dayDiff = Math.floor(hourDiff / 24);
-    const weekDiff = Math.floor(dayDiff / 7);
-
-    if (secondDiff < 60) return `${secondDiff}초 전`;
-    if (minuteDiff < 60) return `${minuteDiff}분 전`;
-    if (hourDiff < 24) return `${hourDiff}시간 전`;
-    if (dayDiff < 7) return `${dayDiff}일 전`;
-
-    const oneMonthAgo = new Date(today);
-    oneMonthAgo.setMonth(today.getMonth() - 1);
-    if (oneMonthAgo - newDate < 0) return `${weekDiff}주 전`;
-
-    const oneYearAgo = new Date(today);
-    oneYearAgo.setFullYear(today.getFullYear() - 1);
-    const monthDiff = today.getMonth() - newDate.getMonth();
-    if (oneYearAgo - newDate < 0) return `${monthDiff <= 0 ? monthDiff + 11 : monthDiff}달 전`;
-
-    return `${today.getFullYear() - newDate.getFullYear()}년 전`;
+export function getLikeStateLocalStorage(videoId) {
+    const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+    return data[videoId] || 0; // 기본값 0
 }
 
-export function getLike(num) {}
+export function setLikeStateLocalStorage(videoId, state) {
+    const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+    data[videoId] = state;
+    localStorage.setItem('likeState', JSON.stringify(data));
+}
