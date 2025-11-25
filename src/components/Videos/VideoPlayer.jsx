@@ -1,11 +1,9 @@
 import { BiVolumeMute } from 'react-icons/bi';
 import { useVideoData, useYouTubeVolumeStorage } from '../../hooks/videoHooks';
-import { useRef } from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { getDominantColor } from '../../utils/image';
-import { decodeHtml } from './../../utils/text';
-import { getDateDiff } from '../../utils/video';
+import { decodeHtml, getDateDiff, getCount } from './../../utils/text';
+import VideoButtons from './VideoButtons';
 
 export default function VideoPlayer({ videoId, videoDetail }) {
     const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
@@ -13,6 +11,7 @@ export default function VideoPlayer({ videoId, videoDetail }) {
     const containerRef = useRef(null);
 
     const [showMute, setShowMute] = useState(true);
+    const [showDescription, setShowDescription] = useState(false);
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
 
     const playerRef = useYouTubeVolumeStorage(videoId, containerRef, setShowMute, 1000);
@@ -25,26 +24,20 @@ export default function VideoPlayer({ videoId, videoDetail }) {
     };
 
     useEffect(() => {
-        getDominantColor(videoDetail?.snippet.thumbnails.high.url).then((color) => {
+        getDominantColor(videoDetail?.snippet.thumbnails.default.url).then((color) => {
             setColor({ r: color.r, g: color.g, b: color.b });
         });
-    }, [videoDetail?.snippet.thumbnails.high.url]);
+    }, [videoDetail?.snippet.thumbnails.default.url]);
 
     return (
         <article className="relative flex-1 shrink basis-auto">
             <section
                 className="relative aspect-video overflow-hidden rounded-2xl"
                 style={{
-                    boxShadow: `0 0px 150px 20px rgba(${color.r}, ${color.g}, ${color.b}, 0.6)`,
+                    boxShadow: `0px 0px 150px 0px rgba(${color.r}, ${color.g}, ${color.b}, 0.4)`,
                 }}
             >
-                <div
-                    ref={containerRef}
-                    className="z-0 h-full w-full"
-                    style={{
-                        boxShadow: `0 4px 170px 20px rgba(${color.r}, ${color.g}, ${color.b}, 0.9)`,
-                    }}
-                ></div>
+                <div className="h-full w-full" ref={containerRef}></div>
             </section>
             {showMute && (
                 <div
@@ -55,19 +48,56 @@ export default function VideoPlayer({ videoId, videoDetail }) {
                     <p>클릭해서 음소거 해제</p>
                 </div>
             )}
-            <header>
-                <header className="line-clamp-2 text-2xl font-semibold">
+            <div className="relative mt-1">
+                <header className="line-clamp-2 text-[1.3rem] font-semibold text-white">
                     {videoDetail?.snippet.title}
                 </header>
-                <div className="flex justify-between">
-                    <p>채널 정보</p>
-                    <p>동영상 좋아요 공유 및 등등 {videoDetail?.statistics?.likeCount}</p>
+                <div className="mt-1 flex items-center justify-between">
+                    <div className="flex gap-3">
+                        <img
+                            src={channelInfo?.snippet.thumbnails.high.url}
+                            className="w-10 rounded-full"
+                        />
+                        <div>
+                            <p className="text-[1rem] font-semibold">
+                                {channelInfo?.snippet.title}
+                            </p>
+                            <p className="text-[0.7rem] text-neutral-400">
+                                구독자 {getCount(channelInfo?.statistics.subscriberCount)}명
+                            </p>
+                        </div>
+                    </div>
+                    <VideoButtons
+                        likeCount={videoDetail?.statistics?.likeCount}
+                        videoId={videoId}
+                    />
                 </div>
-            </header>
-            <section>
-                <span>조회수{videoDetail?.statistics?.viewCount} || </span>
-                <span>{getDateDiff(videoDetail?.snippet.publishedAt)}</span>
-                <p className="whitespace-pre">{decodeHtml(videoDetail?.description)}</p>
+            </div>
+            <section className="group relative mt-2 w-full overflow-hidden rounded-2xl bg-neutral-800 p-3">
+                {!showDescription && (
+                    <div
+                        className="absolute top-0 left-0 z-10 h-full w-full cursor-pointer opacity-30 group-hover:bg-amber-900"
+                        onClick={() => setShowDescription(true)}
+                    ></div>
+                )}
+                <div className="text-[0.925rem] font-bold">
+                    <span>조회수 </span>
+                    <span>{getCount(videoDetail?.statistics?.viewCount)}회 </span>
+                    <span>{getDateDiff(videoDetail?.snippet.publishedAt)}</span>
+                </div>
+
+                <p
+                    className={`text-[0.9rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
+                >
+                    {decodeHtml(videoDetail?.snippet.description)}
+                </p>
+                {showDescription && (
+                    <button className="cursor-pointer" onClick={() => setShowDescription(false)}>
+                        <br />
+                        <br />
+                        간략히
+                    </button>
+                )}
             </section>
         </article>
     );
