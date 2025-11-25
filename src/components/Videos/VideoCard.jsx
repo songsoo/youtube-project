@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { getDominantColor } from '../../utils/image';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { getDateDiff } from './../../utils/video';
+import { getDateDiff } from './../../utils/text';
 
 export default function VideoCard({
     item,
@@ -38,7 +38,7 @@ export default function VideoCard({
                 {showChannelImg && (
                     <img
                         className="mt-1 h-10 w-10 rounded-full"
-                        src={channelInfo?.thumbnails?.high?.url}
+                        src={channelInfo?.snippet.thumbnails?.high?.url}
                     />
                 )}
 
@@ -62,7 +62,7 @@ export default function VideoCard({
             </div>
             {showHoverEffect && (
                 <div
-                    className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl opacity-0 transition duration-400 ease-out group-hover:scale-107 group-hover:cursor-pointer group-hover:opacity-40`}
+                    className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl opacity-0 transition duration-400 ease-out group-hover:scale-105 group-hover:cursor-pointer group-hover:opacity-40`}
                     style={{
                         backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
                         filter: 'saturate(1.4)',
