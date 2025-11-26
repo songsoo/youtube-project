@@ -15,9 +15,6 @@ export default function VideoCard({
     const { channelInfo } = useVideoData(item.snippet.channelId);
     const navigate = useNavigate();
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
-    const handleClick = () => {
-        navigate(`/videos/watch/${item.id.videoId}`);
-    };
 
     useEffect(() => {
         getDominantColor(item.snippet.thumbnails.high.url).then((color) => {
@@ -26,9 +23,9 @@ export default function VideoCard({
     }, [item.id.videoId]);
 
     return (
-        <div
+        <a
             className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-            onClick={handleClick}
+            href={`/videos/watch/${item.id.videoId}`}
         >
             <img
                 src={item.snippet.thumbnails.high.url}
@@ -44,7 +41,7 @@ export default function VideoCard({
 
                 <div className={`flex flex-col ${!isVertical && 'gap-1'}`}>
                     <p
-                        className={`line-clamp-2 font-extrabold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
+                        className={`line-clamp-2 font-semibold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
                     >
                         {decodeHtml(item.snippet.title)}
                     </p>
@@ -69,6 +66,6 @@ export default function VideoCard({
                     }}
                 ></div>
             )}
-        </div>
+        </a>
     );
 }

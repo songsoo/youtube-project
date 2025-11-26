@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import VideoCard from './VideoCard';
 
 export default function RelatedVideos() {

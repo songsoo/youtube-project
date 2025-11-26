@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate } from 'react-router';
+
 import VideoCard from './VideoCard';
 
 export default function VideoList({ videos }) {
