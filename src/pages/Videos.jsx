@@ -22,7 +22,6 @@ export default function Videos() {
     return (
         <div className="flex">
             <VideoList videos={videos} />
-            <div></div>
         </div>
     );
 }

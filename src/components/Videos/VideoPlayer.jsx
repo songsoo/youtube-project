@@ -9,6 +9,7 @@ export default function VideoPlayer({ videoId, videoDetail }) {
     const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
 
     const containerRef = useRef(null);
+    const sectionRef = useRef(null);
 
     const [showMute, setShowMute] = useState(true);
     const [showDescription, setShowDescription] = useState(false);
@@ -23,6 +24,10 @@ export default function VideoPlayer({ videoId, videoDetail }) {
         }
     };
 
+    const scrollToSection = () => {
+        sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+    };
+
     useEffect(() => {
         getDominantColor(videoDetail?.snippet.thumbnails.default.url).then((color) => {
             setColor({ r: color.r, g: color.g, b: color.b });
@@ -34,7 +39,7 @@ export default function VideoPlayer({ videoId, videoDetail }) {
             <section
                 className="relative aspect-video overflow-hidden rounded-2xl"
                 style={{
-                    boxShadow: `0px 0px 150px 0px rgba(${color.r}, ${color.g}, ${color.b}, 0.4)`,
+                    boxShadow: `0px 15px 100px 40px rgba(${color.r}, ${color.g}, ${color.b}, 0.4)`,
                 }}
             >
                 <div className="h-full w-full" ref={containerRef}></div>
@@ -48,7 +53,7 @@ export default function VideoPlayer({ videoId, videoDetail }) {
                     <p>클릭해서 음소거 해제</p>
                 </div>
             )}
-            <div className="relative mt-1">
+            <div className="relative mt-1" ref={sectionRef}>
                 <header className="line-clamp-2 text-[1.3rem] font-semibold text-white">
                     {videoDetail?.snippet.title}
                 </header>
@@ -85,14 +90,28 @@ export default function VideoPlayer({ videoId, videoDetail }) {
                     <span>{getCount(videoDetail?.statistics?.viewCount)}회 </span>
                     <span>{getDateDiff(videoDetail?.snippet.publishedAt)}</span>
                 </div>
-
+                {videoDetail?.snippet.tags.map((tag, index) => (
+                    <a
+                        key={index}
+                        className="relative z-10 mr-1 cursor-pointer text-[0.87rem] text-blue-400"
+                        href={`/videos/${tag}`}
+                    >
+                        #{tag}
+                    </a>
+                ))}
                 <p
-                    className={`text-[0.9rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
+                    className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
                 >
                     {decodeHtml(videoDetail?.snippet.description)}
                 </p>
                 {showDescription && (
-                    <button className="cursor-pointer" onClick={() => setShowDescription(false)}>
+                    <button
+                        className="cursor-pointer"
+                        onClick={() => {
+                            setShowDescription(false);
+                            scrollToSection();
+                        }}
+                    >
                         <br />
                         <br />
                         간략히
