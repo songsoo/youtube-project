@@ -14,13 +14,13 @@ export default function Videos() {
     } = useQuery({
         queryKey: ['videos'],
         queryFn: () => {
-            return fetch(`data/listbykeyword.json`).then((response) => response.json());
+            return fetch(`/data/listbykeyword.json`).then((response) => response.json());
         },
         staleTime: 1000 * 60 * 50, //50분
     });
 
     return (
-        <div>
+        <div className="flex">
             <VideoList videos={videos} />
         </div>
     );

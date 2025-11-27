@@ -1,26 +1,10 @@
-export function getVideoIndex(videoId) {
-    const charSum = videoId.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-    return charSum % colors.length;
+export function getLikeStateLocalStorage(videoId) {
+    const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+    return data[videoId] || 0; // 기본값 0
 }
 
-export const colors = [
-    'bg-red-700',
-    'bg-orange-700',
-    'bg-amber-700',
-    'bg-yellow-700',
-    'bg-lime-700',
-    'bg-green-700',
-    'bg-emerald-700',
-    'bg-teal-700',
-    'bg-cyan-700',
-    'bg-sky-700',
-    'bg-blue-700',
-    'bg-indigo-700',
-    'bg-violet-700',
-    'bg-purple-700',
-    'bg-fuchsia-700',
-    'bg-pink-700',
-    'bg-rose-700',
-    'bg-slate-700',
-    'bg-zinc-700',
-];
+export function setLikeStateLocalStorage(videoId, state) {
+    const data = JSON.parse(localStorage.getItem('likeState') || '{}');
+    data[videoId] = state;
+    localStorage.setItem('likeState', JSON.stringify(data));
+}
