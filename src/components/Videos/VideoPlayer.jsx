@@ -57,17 +57,17 @@ export default function VideoPlayer({ videoId, videoDetail }) {
                 <header className="line-clamp-2 text-[1.3rem] font-semibold text-white">
                     {videoDetail?.snippet.title}
                 </header>
-                <div className="mt-1 flex items-center justify-between">
+                <div className="phone:items-center phone:justify-between phone:flex-row mt-1 flex flex-col">
                     <div className="flex gap-3">
                         <img
                             src={channelInfo?.snippet.thumbnails.high.url}
-                            className="w-10 rounded-full"
+                            className="w-10 rounded-full shrink-0"
                         />
                         <div>
-                            <p className="text-[1rem] font-semibold">
+                            <p className="text-[1rem] font-semibold truncate">
                                 {channelInfo?.snippet.title}
                             </p>
-                            <p className="text-[0.7rem] text-neutral-400">
+                            <p className="text-[0.7rem] text-neutral-400 truncate">
                                 구독자 {getCount(channelInfo?.statistics.subscriberCount)}명
                             </p>
                         </div>
