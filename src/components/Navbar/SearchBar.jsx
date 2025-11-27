@@ -27,7 +27,7 @@ export default function SearchBar() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mr-32 flex h-10 overflow-hidden">
+        <form onSubmit={handleSubmit} className="flex h-10 overflow-hidden">
             <div
                 className={`relative flex w-lg items-center rounded-l-3xl border ${isInputFocused ? ' border-blue-700' : 'border-neutral-700'}`}
             >
@@ -53,7 +53,7 @@ export default function SearchBar() {
             </div>
             <button
                 type="submit"
-                className="flex w-16 items-center justify-center rounded-r-3xl border-y border-r border-neutral-700 bg-neutral-800 py-2 text-2xl hover:cursor-pointer"
+                className="shrink-0 flex w-16 items-center justify-center rounded-r-3xl border-y border-r border-neutral-700 bg-neutral-800 py-2 text-2xl hover:cursor-pointer"
             >
                 <BiSearch />
             </button>

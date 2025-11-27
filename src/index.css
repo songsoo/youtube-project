@@ -2,6 +2,7 @@
 
 @theme {
     --color-bgColor: #181818;
+    --breakpoint-phone: 32rem;
 }
 
 @keyframes pop {
