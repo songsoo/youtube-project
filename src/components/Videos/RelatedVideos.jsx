@@ -15,16 +15,29 @@ export default function RelatedVideos() {
     });
 
     return (
-        <nav className="shrink-0 basis-96 flex flex-col gap-2 ">
-            {videos?.items?.map((item, index) => (
-                <VideoCard
-                    item={item}
-                    key={index}
-                    isVertical={false}
-                    showChannelImg={false}
-                    showHoverEffect={false}
-                />
-            ))}
-        </nav>
+        <>
+            <nav className="flex shrink-0 basis-96 flex-col gap-2 lg:hidden">
+                {videos?.items?.map((item, index) => (
+                    <VideoCard
+                        item={item}
+                        key={index}
+                        isVertical={true}
+                        showChannelImg={true}
+                        showHoverEffect={true}
+                    />
+                ))}
+            </nav>
+            <nav className="hidden shrink-0 basis-96 flex-col gap-2 lg:flex">
+                {videos?.items?.map((item, index) => (
+                    <VideoCard
+                        item={item}
+                        key={index}
+                        isVertical={false}
+                        showChannelImg={false}
+                        showHoverEffect={false}
+                    />
+                ))}
+            </nav>
+        </>
     );
 }
