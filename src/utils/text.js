@@ -42,3 +42,27 @@ export function getCount(num) {
 
     return value + arr[i];
 }
+
+export function parseIso8601Duration(durationString) {
+    const regex = /P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+    const matches = durationString.match(regex);
+
+    if (!matches) {
+        return null;
+    }
+
+    const hours = parseInt(matches[4] || 0);
+    const minutes = parseInt(matches[5] || 0);
+    const seconds = parseInt(matches[6] || 0);
+
+    if (hours > 0) {
+        const paddedMinutes = String(minutes).padStart(2, '0');
+        const paddedSeconds = String(seconds).padStart(2, '0');
+        return `${hours}:${paddedMinutes}:${paddedSeconds}`;
+    } else if (minutes > 0) {
+        const paddedSeconds = String(seconds).padStart(2, '0');
+        return `${minutes}:${paddedSeconds}`;
+    } else {
+        return `${seconds}`;
+    }
+}

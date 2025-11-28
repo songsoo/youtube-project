@@ -1,10 +1,10 @@
 {
     "kind": "youtube#videoListResponse",
-    "etag": "trLU5XsCG-JkBMokAqc272y6_hE",
+    "etag": "Y_LKbQ5wtI7SYF7yfjVPXvE68HI",
     "items": [
         {
             "kind": "youtube#video",
-            "etag": "e-zP4AvvQ2AZyh--1tyUWYtKhhY",
+            "etag": "IFaV1FKlyp1gNmsn4paPB_u0GEw",
             "id": "MBdVXkSdhwU",
             "snippet": {
                 "publishedAt": "2017-09-18T09:00:02Z",
@@ -13,7 +13,7 @@
                 "description": "​BTS (방탄소년단) 'DNA' Official MV\n\n\n\nCredits:\n\n\nDirector : YongSeok Choi (Lumpens)\nAssistant Director : WonJu Lee (Lumpens)\nDirector of Photography : HyunWoo Nam(GDW)\nGaffer : HyunSuk Song (Real Lighting)\nArt Director : JinSil Park (MU:E)\n\n\n\n\nChoreography & performance direction: Sungdeuk Son\nChoreography by: ​Christopher Martin, Keone & Mari\n\n\n\nBigHit Entertainment. All rights reserved. \nUnauthorized reproduction is a violation of applicable laws. \nManufactured by BigHit Entertainment, Seoul, Korea.\n\n\n\n\nConnect with BTS:\nhttp://www.ibighit.com \nhttp://twitter.com/BTS_bighit \nhttp://twitter.com/BTS_twt \nhttps://www.facebook.com/ibighit/\nhttp://www.facebook.com/bangtan.official\nhttp://instagram.com/BTS.bighitofficial\nhttp://weibo.com/BTSbighit",
                 "thumbnails": {
                     "default": {
-                        "url": "https://i.ytimg.com/vi/hmE9f-TEutc/default.jpg",
+                        "url": "https://i.ytimg.com/vi/MBdVXkSdhwU/default.jpg",
                         "width": 120,
                         "height": 90
                     },
@@ -23,7 +23,7 @@
                         "height": 180
                     },
                     "high": {
-                        "url": "https://i.ytimg.com/vi/hmE9f-TEutc/default.jpg",
+                        "url": "https://i.ytimg.com/vi/MBdVXkSdhwU/hqdefault.jpg",
                         "width": 480,
                         "height": 360
                     },
@@ -68,10 +68,10 @@
                 "projection": "rectangular"
             },
             "statistics": {
-                "viewCount": "1641267509",
-                "likeCount": "23483458",
+                "viewCount": "1641846834",
+                "likeCount": "23485084",
                 "favoriteCount": "0",
-                "commentCount": "6218605"
+                "commentCount": "6218375"
             }
         }
     ],
