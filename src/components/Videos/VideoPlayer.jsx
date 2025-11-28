@@ -61,13 +61,13 @@ export default function VideoPlayer({ videoId, videoDetail }) {
                     <div className="flex gap-3">
                         <img
                             src={channelInfo?.snippet.thumbnails.high.url}
-                            className="w-10 rounded-full shrink-0"
+                            className="w-10 shrink-0 rounded-full"
                         />
                         <div>
-                            <p className="text-[1rem] font-semibold truncate">
+                            <p className="truncate text-[1rem] font-semibold">
                                 {channelInfo?.snippet.title}
                             </p>
-                            <p className="text-[0.7rem] text-neutral-400 truncate">
+                            <p className="truncate text-[0.7rem] text-neutral-400">
                                 구독자 {getCount(channelInfo?.statistics.subscriberCount)}명
                             </p>
                         </div>

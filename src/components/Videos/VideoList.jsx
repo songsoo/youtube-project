@@ -1,4 +1,3 @@
-
 import VideoCard from './VideoCard';
 
 export default function VideoList({ videos }) {
