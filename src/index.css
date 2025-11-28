@@ -23,6 +23,12 @@
     font-style: normal;
 }
 
+@layer utilities {
+    .bg-skeleton {
+        @apply animate-pulse bg-gray-300;
+    }
+}
+
 #root {
     width: 100vw;
     max-width: 100vw;

@@ -6,12 +6,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getDateDiff } from './../../utils/text';
 import { useQuery } from '@tanstack/react-query';
+import Loading from './loading';
 
 export default function VideoCard({
-    item,
     isVertical = true,
     showChannelImg = true,
     showHoverEffect = true,
+    item,
 }) {
     const { channelInfo } = useVideoData(item.snippet.channelId);
     const navigate = useNavigate();
@@ -34,7 +35,9 @@ export default function VideoCard({
         });
     }, [item.id.videoId]);
 
-    return (
+    return isLoading ? (
+        <Loading />
+    ) : (
         <a
             className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
             href={`/videos/watch/${item.id.videoId}`}
@@ -49,9 +52,7 @@ export default function VideoCard({
                 }}
             >
                 <div className="absolute right-1.5 bottom-1.5 rounded-sm bg-black/80 px-1.5 text-xs font-medium text-white">
-                    {parseIso8601Duration(
-                        videoDetail?.items[0].contentDetails?.duration,
-                    )}
+                    {parseIso8601Duration(videoDetail?.items[0].contentDetails?.duration)}
                 </div>
             </div>
             <div className={`flex flex-1 gap-3`}>
