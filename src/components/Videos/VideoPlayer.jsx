@@ -5,7 +5,7 @@ import { getDominantColor } from '../../utils/image';
 import { decodeHtml, getDateDiff, getCount } from './../../utils/text';
 import VideoButtons from './VideoButtons';
 
-export default function VideoPlayer({ videoId, videoDetail }) {
+export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
     const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
 
     const containerRef = useRef(null);
@@ -34,7 +34,21 @@ export default function VideoPlayer({ videoId, videoDetail }) {
         });
     }, [videoDetail?.snippet.thumbnails.default.url]);
 
-    return (
+    return isLoading ? (
+        <div className="relative flex-1 shrink basis-auto">
+            <div className="bg-skeleton relative aspect-video overflow-hidden rounded-2xl"></div>
+            <div className="relative mt-1">
+                <div className="bg-skeleton h-8 rounded-md"></div>
+                <div className="phone:items-center phone:justify-between phone:flex-row mt-1 flex flex-col">
+                    <div className="flex h-10 w-full gap-3">
+                        <div className="bg-skeleton flex-none shrink-0 basis-10 rounded-full"></div>
+                        <div className="bg-skeleton h-5 w-1/2 rounded-md"></div>
+                    </div>
+                </div>
+            </div>
+            <div className="bg-skeleton relative mt-2 h-20 w-full rounded-lg"></div>
+        </div>
+    ) : (
         <article className="relative flex-1 shrink basis-auto">
             <section
                 className="relative aspect-video overflow-hidden rounded-2xl"
