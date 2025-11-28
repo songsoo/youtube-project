@@ -6,12 +6,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getDateDiff } from './../../utils/text';
 import { useQuery } from '@tanstack/react-query';
+import Loading from './loading';
 
 export default function VideoCard({
-    item,
     isVertical = true,
     showChannelImg = true,
     showHoverEffect = true,
+    item,
 }) {
     const { channelInfo } = useVideoData(item.snippet.channelId);
     const navigate = useNavigate();
@@ -34,81 +35,61 @@ export default function VideoCard({
         });
     }, [item.id.videoId]);
 
-    return (
-        <>
-            {isLoading ? (
-                <div
-                    className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-                >
-                    <div
-                        className={`bg-skeleton relative z-10 aspect-video shrink-0 rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
-                    >
-                        <span className="invisible"></span>
-                    </div>
-                    <div className={`flex flex-1 gap-3`}>
-                        {isVertical && <div className="bg-skeleton mt-1 h-10 w-10 rounded-full" />}
-                        <div className={`flex flex-1 flex-col gap-2`}>
-                            <div className={`bg-skeleton block h-5 w-full rounded-md`}></div>
-                            <div className={`bg-skeleton block h-3 w-1/3 rounded-md`}></div>
-                            <div className={`bg-skeleton block h-3 w-1/3 rounded-md`}></div>
-                        </div>
-                    </div>
+    return isLoading ? (
+        <Loading />
+    ) : (
+        <a
+            className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
+            href={`/videos/watch/${item.id.videoId}`}
+        >
+            <div
+                className={`relative z-10 aspect-video rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
+                style={{
+                    background: `url("${item.snippet.thumbnails.high.url}")`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            >
+                <div className="absolute right-1.5 bottom-1.5 rounded-sm bg-black/80 px-1.5 text-xs font-medium text-white">
+                    {parseIso8601Duration(videoDetail?.items[0].contentDetails?.duration)}
                 </div>
-            ) : (
-                <a
-                    className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-                    href={`/videos/watch/${item.id.videoId}`}
-                >
-                    <div
-                        className={`relative z-10 aspect-video rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
-                        style={{
-                            background: `url("${item.snippet.thumbnails.high.url}")`,
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                            backgroundRepeat: 'no-repeat',
-                        }}
-                    >
-                        <div className="absolute right-1.5 bottom-1.5 rounded-sm bg-black/80 px-1.5 text-xs font-medium text-white">
-                            {parseIso8601Duration(videoDetail?.items[0].contentDetails?.duration)}
-                        </div>
-                    </div>
-                    <div className={`flex flex-1 gap-3`}>
-                        {showChannelImg && (
-                            <img
-                                className="mt-1 h-10 w-10 rounded-full"
-                                src={channelInfo?.snippet.thumbnails?.high?.url}
-                            />
-                        )}
+            </div>
+            <div className={`flex flex-1 gap-3`}>
+                {showChannelImg && (
+                    <img
+                        className="mt-1 h-10 w-10 rounded-full"
+                        src={channelInfo?.snippet.thumbnails?.high?.url}
+                    />
+                )}
 
-                        <div className={`flex flex-col ${!isVertical && 'gap-1'}`}>
-                            <p
-                                className={`line-clamp-2 font-semibold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
-                            >
-                                {decodeHtml(item.snippet.title)}
-                            </p>
-                            <p
-                                className={`w-fit font-medium text-neutral-400 ${isVertical ? 'text-[0.825rem] hover:text-white' : 'text-xs'}`}
-                            >
-                                {item.snippet.channelTitle}
-                            </p>
-                            <p
-                                className={`${isVertical ? 'text-[0.85rem]' : 'text-xs'} font-medium text-neutral-400`}
-                            >
-                                {getDateDiff(item.snippet.publishedAt)}
-                            </p>
-                        </div>
-                    </div>
-                    {showHoverEffect && (
-                        <div
-                            className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl opacity-0 transition duration-400 ease-out group-hover:scale-105 group-hover:cursor-pointer group-hover:opacity-40`}
-                            style={{
-                                backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
-                                filter: 'saturate(1.4)',
-                            }}
-                        ></div>
-                    )}
-                </a>
+                <div className={`flex flex-col ${!isVertical && 'gap-1'}`}>
+                    <p
+                        className={`line-clamp-2 font-semibold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
+                    >
+                        {decodeHtml(item.snippet.title)}
+                    </p>
+                    <p
+                        className={`w-fit font-medium text-neutral-400 ${isVertical ? 'text-[0.825rem] hover:text-white' : 'text-xs'}`}
+                    >
+                        {item.snippet.channelTitle}
+                    </p>
+                    <p
+                        className={`${isVertical ? 'text-[0.85rem]' : 'text-xs'} font-medium text-neutral-400`}
+                    >
+                        {getDateDiff(item.snippet.publishedAt)}
+                    </p>
+                </div>
+            </div>
+            {showHoverEffect && (
+                <div
+                    className={`pointer-events-none absolute top-1/2 left-1/2 h-full w-full -translate-1/2 rounded-xl opacity-0 transition duration-400 ease-out group-hover:scale-105 group-hover:cursor-pointer group-hover:opacity-40`}
+                    style={{
+                        backgroundColor: `rgb(${color.r}, ${color.g}, ${color.b})`,
+                        filter: 'saturate(1.4)',
+                    }}
+                ></div>
             )}
-        </>
+        </a>
     );
 }
