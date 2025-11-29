@@ -13,10 +13,9 @@ export function useVideoData(channelId) {
         },
         staleTime: 1000 * 60 * 50,
     });
-    
-    return { channelInfo};
-}
 
+    return { channelInfo };
+}
 
 export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, intervalMs = 1000) {
     const playerRef = useRef(null);

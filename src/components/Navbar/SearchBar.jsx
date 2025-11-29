@@ -53,7 +53,7 @@ export default function SearchBar() {
             </div>
             <button
                 type="submit"
-                className="shrink-0 flex w-16 items-center justify-center rounded-r-3xl border-y border-r border-neutral-700 bg-neutral-800 py-2 text-2xl hover:cursor-pointer"
+                className="flex w-16 shrink-0 items-center justify-center rounded-r-3xl border-y border-r border-neutral-700 bg-neutral-800 py-2 text-2xl hover:cursor-pointer"
             >
                 <BiSearch />
             </button>

@@ -19,8 +19,12 @@ export default function VideoDetail() {
 
     return (
         <main className="flex flex-col gap-5 lg:flex-row">
-            <VideoPlayer videoId={videoId} videoDetail={videoDetail?.items[0]} />
-                <RelatedVideos />
+            <VideoPlayer
+                videoId={videoId}
+                videoDetail={videoDetail?.items[0]}
+                isLoading={isLoading}
+            />
+            <RelatedVideos />
         </main>
     );
 }
