@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { getDateDiff } from './../../utils/text';
 import { useQuery } from '@tanstack/react-query';
-import Loading from './loading';
+
 
 export default function VideoCard({
     isVertical = true,
