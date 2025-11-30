@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from 'react';
 import { getDominantColor } from '../../utils/image';
 import { decodeHtml, getDateDiff, getCount } from './../../utils/text';
 import VideoButtons from './VideoButtons';
+import { Link } from 'react-router';
 
 export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
     const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
@@ -105,13 +106,13 @@ export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
                     <span>{getDateDiff(videoDetail?.snippet.publishedAt)}</span>
                 </div>
                 {videoDetail?.snippet.tags.map((tag, index) => (
-                    <a
+                    <Link
                         key={index}
                         className="relative z-10 mr-1 cursor-pointer text-[0.87rem] text-blue-400"
-                        href={`/videos/${tag}`}
+                        to={`/videos/${tag}`}
                     >
                         #{tag}
-                    </a>
+                    </Link>
                 ))}
                 <p
                     className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
