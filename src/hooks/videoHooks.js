@@ -22,7 +22,7 @@ export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, inte
     const [apiReady, setApiReady] = useState(false);
 
     useEffect(() => {
-        if (window.YT && window.YT.Player) {
+        if (window.YT && window.YT.Player && containerRef.current) {
             setApiReady(true);
             return;
         }
@@ -35,15 +35,14 @@ export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, inte
         return () => {
             document.body.removeChild(tag);
         };
-    }, []);
+    }, [containerRef.current]);
 
     useEffect(() => {
         if (!apiReady || !containerRef.current) return;
 
         if (playerRef.current) {
-            playerRef.current.destroy();
-            playerRef.current = null;
-            setShowMute(true);
+            playerRef.current.loadVideoById(videoId);
+            return;
         }
 
         playerRef.current = new window.YT.Player(containerRef.current, {
@@ -58,7 +57,6 @@ export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, inte
                 onReady: (event) => {
                     const volume = Number(localStorage.getItem('ytVolume') || 50);
                     event.target.setVolume(volume);
-                    console.log('초기 볼륨 설정:', volume);
                 },
             },
         });
@@ -76,7 +74,6 @@ export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, inte
                 if (currentVolume !== lastVolume) {
                     localStorage.setItem('ytVolume', currentVolume);
                     lastVolume = currentVolume;
-                    console.log('볼륨 저장:', currentVolume);
                 }
             } catch (e) {
                 console.warn('볼륨 체크 실패:', e);
