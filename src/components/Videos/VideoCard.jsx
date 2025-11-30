@@ -1,6 +1,6 @@
 import { useVideoData } from '../../hooks/videoHooks';
 import { decodeHtml, parseIso8601Duration } from '../../utils/text';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { getDominantColor } from '../../utils/image';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -53,9 +53,9 @@ export default function VideoCard({
             </div>
         </div>
     ) : (
-        <a
+        <Link
             className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-            href={`/videos/watch/${item.id.videoId}`}
+            to={`/videos/watch/${item.id.videoId}`}
         >
             <div
                 className={`relative z-10 aspect-video rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
@@ -105,6 +105,6 @@ export default function VideoCard({
                     }}
                 ></div>
             )}
-        </a>
+        </Link>
     );
 }
