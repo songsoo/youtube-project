@@ -12,7 +12,8 @@ export default function VideoDetail() {
     } = useQuery({
         queryKey: ['videoDetail', videoId],
         queryFn: () => {
-            return fetch(`/data/getVideoInfo.json`).then((response) => response.json());
+            const youtube = new Youtube();
+            return youtube.getVideoInfo(videoId);
         },
         staleTime: 1000 * 60 * 50, //50분
     });

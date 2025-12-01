@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
+import Youtube from '../utils/youtubeAPI';
 
 export function useVideoData(channelId) {
     const { data: channelInfo } = useQuery({
         queryKey: ['channelInfo', channelId],
         queryFn: () => {
-            return fetch(`/data/channelInfo.json`)
-                .then((response) => response.json())
-                .then((data) => {
-                    return data.items[0];
-                });
+            const youtube = new Youtube();
+            return youtube.getChannelInfo(channelId);
         },
         staleTime: 1000 * 60 * 50,
     });

@@ -7,7 +7,7 @@ import VideoButtons from './VideoButtons';
 import { Link } from 'react-router';
 
 export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
-    const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
+    const { channelInfo } = useVideoData(videoDetail.snippet.channelId, videoId);
 
     const containerRef = useRef(null);
     const sectionRef = useRef(null);
