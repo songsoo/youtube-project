@@ -1,80 +1,47 @@
-import { useVideoData } from '../../hooks/videoHooks';
 import { decodeHtml, parseIso8601Duration } from '../../utils/text';
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { getDominantColor } from '../../utils/image';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getDateDiff } from './../../utils/text';
-import { useQuery } from '@tanstack/react-query';
 
 export default function VideoCard({
     isVertical = true,
     showChannelImg = true,
     showHoverEffect = true,
-    item,
+    video,
 }) {
-    const { channelInfo } = useVideoData(item.snippet.channelId);
-    const navigate = useNavigate();
     const [color, setColor] = useState({ r: 0, g: 0, b: 0 });
-    const {
-        isLoading,
-        error,
-        data: videoDetail,
-    } = useQuery({
-        queryKey: ['videoDetail', item.id.videoId],
-        queryFn: () => {
-            return fetch(`/data/getVideoInfo.json`).then((response) => response.json());
-        },
-        staleTime: 1000 * 60 * 50, //50분
-    });
 
     useEffect(() => {
-        getDominantColor(item.snippet.thumbnails.high.url).then((color) => {
+        getDominantColor(video.thumbnail).then((color) => {
             setColor({ r: color.r, g: color.g, b: color.b });
         });
-    }, [item.id.videoId]);
+    }, [video.videoId]);
 
-    return isLoading ? (
-        <div
-            className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-        >
-            <div
-                className={`bg-skeleton relative z-10 aspect-video shrink-0 rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
-            >
-                <span className="invisible"></span>
-            </div>
-            <div className={`flex flex-1 gap-3`}>
-                {isVertical && <div className="bg-skeleton mt-1 h-10 w-10 rounded-full" />}
-                <div className={`flex flex-1 flex-col gap-2`}>
-                    <div className={`bg-skeleton block h-5 w-full rounded-md`}></div>
-                    <div className={`bg-skeleton block h-3 w-1/3 rounded-md`}></div>
-                    <div className={`bg-skeleton block h-3 w-1/3 rounded-md`}></div>
-                </div>
-            </div>
-        </div>
-    ) : (
+    return (
         <Link
             className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
-            to={`/videos/watch/${item.id.videoId}`}
+            to={`/videos/watch/${video.videoId}`}
         >
             <div
                 className={`relative z-10 aspect-video rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}
                 style={{
-                    background: `url("${item.snippet.thumbnails.high.url}")`,
+                    background: `url("${video.thumbnail}")`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                 }}
             >
                 <div className="absolute right-1.5 bottom-1.5 rounded-sm bg-black/80 px-1.5 text-xs font-medium text-white">
-                    {parseIso8601Duration(videoDetail?.items[0].contentDetails?.duration)}
+                    {parseIso8601Duration(video.duration)}
                 </div>
             </div>
             <div className={`flex flex-1 gap-3`}>
                 {showChannelImg && (
                     <img
-                        className="mt-1 h-10 w-10 rounded-full"
-                        src={channelInfo?.snippet.thumbnails?.high?.url}
+                        className="mt-1 h-10 w-10 shrink-0 rounded-full"
+                        src={video.channelThumbnail}
                     />
                 )}
 
@@ -82,17 +49,17 @@ export default function VideoCard({
                     <p
                         className={`line-clamp-2 font-semibold break-all text-neutral-100 ${isVertical ? 'text-md' : 'text-sm'} `}
                     >
-                        {decodeHtml(item.snippet.title)}
+                        {decodeHtml(video.title)}
                     </p>
                     <p
                         className={`w-fit font-medium text-neutral-400 ${isVertical ? 'text-[0.825rem] hover:text-white' : 'text-xs'}`}
                     >
-                        {item.snippet.channelTitle}
+                        {video.channelTitle}
                     </p>
                     <p
                         className={`${isVertical ? 'text-[0.85rem]' : 'text-xs'} font-medium text-neutral-400`}
                     >
-                        {getDateDiff(item.snippet.publishedAt)}
+                        {getDateDiff(video.publishedAt)}
                     </p>
                 </div>
             </div>
