@@ -1,19 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import Youtube from '../utils/youtubeAPI';
-
-export function useVideoData(channelId) {
-    const { data: channelInfo } = useQuery({
-        queryKey: ['channelInfo', channelId],
-        queryFn: () => {
-            const youtube = new Youtube();
-            return youtube.getChannelInfo(channelId);
-        },
-        staleTime: 1000 * 60 * 50,
-    });
-
-    return { channelInfo };
-}
 
 export function useYouTubeVolumeStorage(videoId, containerRef, setShowMute, intervalMs = 1000) {
     const playerRef = useRef(null);
