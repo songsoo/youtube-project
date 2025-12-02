@@ -1,14 +1,12 @@
 import { BiVolumeMute } from 'react-icons/bi';
-import { useVideoData, useYouTubeVolumeStorage } from '../../hooks/videoHooks';
+import { useYouTubeVolumeStorage } from '../../hooks/videoHooks';
 import { useRef, useState, useEffect } from 'react';
 import { getDominantColor } from '../../utils/image';
 import { decodeHtml, getDateDiff, getCount } from './../../utils/text';
 import VideoButtons from './VideoButtons';
 import { Link } from 'react-router';
 
-export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
-    const { channelInfo } = useVideoData(videoDetail?.channelId, videoId);
-
+export default function VideoPlayer({ videoId, video, isLoading }) {
     const containerRef = useRef(null);
     const sectionRef = useRef(null);
 
@@ -30,26 +28,12 @@ export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
     };
 
     useEffect(() => {
-        getDominantColor(videoDetail?.snippet.thumbnails.default.url).then((color) => {
+        getDominantColor(video.thumbnail).then((color) => {
             setColor({ r: color.r, g: color.g, b: color.b });
         });
-    }, [videoDetail?.snippet.thumbnails.default.url]);
+    }, [videoId]);
 
-    return isLoading ? (
-        <div className="relative flex-1 shrink basis-auto">
-            <div className="bg-skeleton relative aspect-video overflow-hidden rounded-2xl"></div>
-            <div className="relative mt-1">
-                <div className="bg-skeleton h-8 rounded-md"></div>
-                <div className="phone:items-center phone:justify-between phone:flex-row mt-1 flex flex-col">
-                    <div className="flex h-10 w-full gap-3">
-                        <div className="bg-skeleton flex-none shrink-0 basis-10 rounded-full"></div>
-                        <div className="bg-skeleton h-5 w-1/2 rounded-md"></div>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-skeleton relative mt-2 h-20 w-full rounded-lg"></div>
-        </div>
-    ) : (
+    return (
         <article className="relative flex-1 shrink basis-auto">
             <section
                 className="relative aspect-video overflow-hidden rounded-2xl"
@@ -70,27 +54,21 @@ export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
             )}
             <div className="relative mt-1" ref={sectionRef}>
                 <header className="line-clamp-2 text-[1.3rem] font-semibold text-white">
-                    {videoDetail?.snippet.title}
+                    {video.title}
                 </header>
                 <div className="phone:items-center phone:justify-between phone:flex-row mt-1 flex flex-col">
                     <div className="flex gap-3">
-                        <img
-                            src={channelInfo?.snippet.thumbnails.high.url}
-                            className="w-10 shrink-0 rounded-full"
-                        />
+                        <img src={video.channelThumbnail} className="w-10 shrink-0 rounded-full" />
                         <div>
                             <p className="truncate text-[1rem] font-semibold">
-                                {channelInfo?.snippet.title}
+                                {video.channelTitle}
                             </p>
                             <p className="truncate text-[0.7rem] text-neutral-400">
-                                구독자 {getCount(channelInfo?.statistics.subscriberCount)}명
+                                구독자 {getCount(video.subscriberCount)}명
                             </p>
                         </div>
                     </div>
-                    <VideoButtons
-                        likeCount={videoDetail?.statistics?.likeCount}
-                        videoId={videoId}
-                    />
+                    <VideoButtons likeCount={video.likeCount} videoId={videoId} />
                 </div>
             </div>
             <section className="group relative mt-2 w-full overflow-hidden rounded-2xl bg-neutral-800 p-3">
@@ -102,10 +80,10 @@ export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
                 )}
                 <div className="text-[0.925rem] font-bold">
                     <span>조회수 </span>
-                    <span>{getCount(videoDetail?.statistics?.viewCount)}회 </span>
-                    <span>{getDateDiff(videoDetail?.snippet.publishedAt)}</span>
+                    <span>{getCount(video.viewCount)}회 </span>
+                    <span>{getDateDiff(video.publishedAt)}</span>
                 </div>
-                {videoDetail?.snippet.tags.map((tag, index) => (
+                {video?.tags.map((tag, index) => (
                     <Link
                         key={index}
                         className="relative z-10 mr-1 cursor-pointer text-[0.87rem] text-blue-400"
@@ -117,7 +95,7 @@ export default function VideoPlayer({ videoId, videoDetail, isLoading }) {
                 <p
                     className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
                 >
-                    {decodeHtml(videoDetail?.snippet.description)}
+                    {decodeHtml(video.description)}
                 </p>
                 {showDescription && (
                     <button
