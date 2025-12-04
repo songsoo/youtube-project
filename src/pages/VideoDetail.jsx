@@ -19,12 +19,8 @@ export default function VideoDetail() {
     } = useQuery({
         queryKey: ['video', videoId],
         queryFn: async () => {
-            try {
-                const youtube = new Youtube();
-                return youtube.getVideoChannelInfo(videoId);
-            } catch (e) {
-                console.log(e);
-            }
+            const youtube = new Youtube();
+            return youtube.getVideoChannelInfo(videoId);
         },
         staleTime: 1000 * 60 * 50, //50분
     });

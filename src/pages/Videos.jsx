@@ -26,11 +26,6 @@ export default function Videos() {
             }
         },
         staleTime: 1000 * 60 * 50, //50분
-        onSuccess: (videos) => {
-            videos.forEach((video) => {
-                queryClient.setQueryData(['video', video.videoId], video);
-            });
-        },
     });
 
     useEffect(() => {
