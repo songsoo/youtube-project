@@ -2,7 +2,13 @@ import { BiVolumeMute } from 'react-icons/bi';
 import { useYouTubeVolumeStorage } from '../../hooks/videoHooks';
 import { useRef, useState, useEffect } from 'react';
 import { getDominantColor } from '../../utils/image';
-import { decodeHtml, getDateDiff, getCount } from './../../utils/text';
+import {
+    decodeHtml,
+    getDateDiff,
+    getCount,
+    getCommaFormatNumber,
+    getDetailDate,
+} from './../../utils/text';
 import VideoButtons from './VideoButtons';
 import { Link } from 'react-router';
 
@@ -81,10 +87,19 @@ export default function VideoPlayer({ videoId, video, isLoading }) {
                         onClick={() => setShowDescription(true)}
                     ></div>
                 )}
-                <div className="text-[0.925rem] font-bold">
+                <div className="text-[0.825rem] font-semibold">
                     <span>조회수 </span>
-                    <span>{getCount(video.viewCount)}회 </span>
-                    <span>{getDateDiff(video.publishedAt)}</span>
+                    <span>
+                        {showDescription
+                            ? getCommaFormatNumber(video.viewCount)
+                            : getCount(video.viewCount)}
+                        회{' '}
+                    </span>
+                    <span>
+                        {showDescription
+                            ? getDetailDate(video.publishedAt)
+                            : getDateDiff(video.publishedAt)}
+                    </span>
                 </div>
                 {video?.tags.map((tag, index) => (
                     <Link
@@ -96,7 +111,7 @@ export default function VideoPlayer({ videoId, video, isLoading }) {
                     </Link>
                 ))}
                 <p
-                    className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'}`}
+                    className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'} text-neutral-300`}
                 >
                     {decodeHtml(video.description)}
                 </p>
