@@ -79,19 +79,21 @@ export default class Youtube {
                 params: {
                     part: 'snippet',
                     maxResults: 24,
-                    q: keyword,
                     type: 'video',
+                    q: keyword,
                 },
             })
             .then((res) => {
-                return res.data.items;
+                return res.data.items.filter((item) => item.id.kind === 'youtube#video');
             });
 
         const channels = items.map((item) => item.snippet.channelId);
-        const channelListInfo = await this.getChannelListInfo(channels);
-
         const videos = items.map((item) => item.id.videoId);
-        const videoListInfo = await this.getVideoListInfo(videos);
+        
+        const [channelListInfo, videoListInfo] = await Promise.all([
+            this.getChannelListInfo(channels),
+            this.getVideoListInfo(videos),
+        ]);
 
         const channelThumbnailMap = {};
         const channelSubscriberMap = {};
@@ -107,6 +109,7 @@ export default class Youtube {
 
         const merged = items.map((item) => {
             const video = videoMap[item.id.videoId];
+
             return {
                 videoId: item.id.videoId,
                 thumbnail: item.snippet.thumbnails.high.url,
