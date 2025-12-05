@@ -88,10 +88,12 @@ export default class Youtube {
             });
 
         const channels = items.map((item) => item.snippet.channelId);
-        const channelListInfo = await this.getChannelListInfo(channels);
-
         const videos = items.map((item) => item.id.videoId);
-        const videoListInfo = await this.getVideoListInfo(videos);
+        
+        const [channelListInfo, videoListInfo] = await Promise.all([
+            this.getChannelListInfo(channels),
+            this.getVideoListInfo(videos),
+        ]);
 
         const channelThumbnailMap = {};
         const channelSubscriberMap = {};
