@@ -24,7 +24,10 @@ export default function VideoPlayer({ videoId, video, isLoading }) {
     };
 
     const scrollToSection = () => {
-        sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        const sectionLoc = sectionRef.current.getBoundingClientRect().top;
+        if (sectionLoc < 0) {
+            sectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
     };
 
     useEffect(() => {
