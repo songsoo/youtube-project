@@ -3,7 +3,7 @@ import React from 'react';
 export default function VideoCardSkeleton({ isVertical }) {
     return (
         <div
-            className={`group relative h-fit w-full hover:cursor-pointer ${!isVertical && 'flex gap-3'}`}
+            className={`group relative h-fit w-full ${!isVertical && 'flex gap-3'}`}
         >
             <div
                 className={`bg-skeleton relative z-10 aspect-video shrink-0 rounded-xl ${isVertical ? 'mb-2 w-full' : 'w-40'}`}

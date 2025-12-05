@@ -1,27 +1,42 @@
-import { useQuery, QueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import VideoCard from './VideoCard';
 import Youtube from '../../utils/youtubeAPI';
 import VideoCardSkeleton from './VideoCardSkeleton';
+import Error from '../Common/Error';
+import { useEffect } from 'react';
+import { useApiAvailable } from '../../context/ApiCheckContextProvider';
 
 export default function RelatedVideos() {
-    const queryClient = new QueryClient();
+    const queryClient = useQueryClient();
+    const { controlIsApiAvailable } = useApiAvailable();
+
     const {
+        data: videos,
         isLoading,
         error,
-        data: videos,
+        status,
     } = useQuery({
-        queryKey: ['videos', 'popular'],
+        queryKey: ['videoList', 'popular'],
         queryFn: async () => {
             const youtube = new Youtube();
-            return await youtube.getPopularVideos();
+            return youtube.getPopularVideos();
         },
         staleTime: 1000 * 60 * 50, //50분
-        onSuccess: (videos) => {
+    });
+
+    useEffect(() => {
+        if (status === 'success') {
             videos.forEach((video) => {
                 queryClient.setQueryData(['video', video.videoId], video);
             });
-        },
-    });
+        } else if (status === 'error') {
+            controlIsApiAvailable(false);
+            // const reason = error?.response?.data?.error?.errors?.[0]?.reason;
+            // if (reason === 'quotaExceeded') {
+            //     controlIsApiAvailable(false);
+            // }
+        }
+    }, [status]);
 
     return isLoading ? (
         <>
@@ -35,6 +50,11 @@ export default function RelatedVideos() {
                     <VideoCardSkeleton isVertical={false} key={i} />
                 ))}
             </nav>
+        </>
+    ) : error ? (
+        <>
+            <Error ErrorClass="flex shrink-0 basis-96 flex-col gap-2 lg:hidden" />
+            <Error ErrorClass="hidden shrink-0 basis-96 flex-col gap-2 lg:flex" />
         </>
     ) : (
         <>

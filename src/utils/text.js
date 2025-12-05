@@ -28,6 +28,11 @@ export function getDateDiff(date) {
     return `${today.getFullYear() - newDate.getFullYear()}년 전`;
 }
 
+export function getDetailDate(givenDate) {
+    const date = new Date(givenDate);
+    return date.getFullYear() + '. ' + date.getMonth() + '. ' + date.getDate();
+}
+
 export function getCount(num) {
     // 10000의 단위로 끝어서 나타낸다.
     // 한자리의 경우 소수점 하나 아래까지는 보여준다.
@@ -41,6 +46,10 @@ export function getCount(num) {
     const value = num < 10 ? Math.floor(num * 10) / 10 : Math.floor(num);
 
     return value + arr[i];
+}
+
+export function getCommaFormatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 export function parseIso8601Duration(durationString) {
