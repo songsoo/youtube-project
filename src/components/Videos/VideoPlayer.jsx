@@ -101,7 +101,7 @@ export default function VideoPlayer({ videoId, video, isLoading }) {
                             : getDateDiff(video.publishedAt)}
                     </span>
                 </div>
-                {video?.tags.map((tag, index) => (
+                {video?.tags?.map((tag, index) => (
                     <Link
                         key={index}
                         className="relative z-10 mr-1 cursor-pointer text-[0.87rem] text-blue-400"
