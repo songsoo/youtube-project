@@ -42,7 +42,7 @@ export default function VideoDetail() {
             ) : error ? (
                 <Error ErrorClass="relative w-full flex-1 shrink" />
             ) : (
-                <VideoPlayer videoId={videoId} video={video} isLoading={isLoading} />
+                <VideoPlayer videoId={videoId} video={video} />
             )}
             <RelatedVideos />
         </main>
