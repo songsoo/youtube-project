@@ -12,7 +12,7 @@ import {
 import VideoButtons from './VideoButtons';
 import { Link } from 'react-router';
 
-export default function VideoPlayer({ videoId, video, isLoading }) {
+export default function VideoPlayer({ videoId, video }) {
     const containerRef = useRef(null);
     const sectionRef = useRef(null);
 
@@ -111,7 +111,7 @@ export default function VideoPlayer({ videoId, video, isLoading }) {
                     </Link>
                 ))}
                 <p
-                    className={`text-[0.87rem] font-medium whitespace-pre ${!showDescription && 'line-clamp-2'} text-neutral-300`}
+                    className={`text-[0.87rem] font-medium whitespace-pre-wrap ${!showDescription && 'line-clamp-2'} text-neutral-300`}
                 >
                     {decodeHtml(video.description)}
                 </p>
